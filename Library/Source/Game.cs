@@ -48,7 +48,7 @@ namespace Minesweeper3D.Library
 
         #region Not public
 
-        private readonly DateTime gameStartTime;
+        private DateTime gameStartTime;
         protected readonly Timer timer_elapsedTimeRefresh = new Timer(100)
         {
             AutoReset = true,
@@ -108,10 +108,13 @@ namespace Minesweeper3D.Library
         }
 
         /// <summary>
-        /// Starts the game timer.
+        /// Starts the game timer and sets the <see cref="gameStartTime"/> to <see cref="DateTime.Now"/>.
         /// </summary>
         public void StartTimer()
         {
+            if (gameStartTime == null)
+                gameStartTime = DateTime.Now;
+
             timer_elapsedTimeRefresh.Start();
         }
 
