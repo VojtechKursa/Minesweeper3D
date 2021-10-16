@@ -9,13 +9,39 @@ namespace Minesweeper3D.Library
         #region Variables and Properties
         #region Public
 
+        /// <summary>
+        /// Gets the <see cref="Minesweeper3D.Library.MineSpace"/> used by this <see cref="Game"/>.
+        /// </summary>
         public MineSpace MineSpace { get; }
+
+        /// <summary>
+        /// Gets the total amount of cubes in the <see cref="MineSpace"/>.
+        /// </summary>
         public int CubeCount { get; }
 
+        /// <summary>
+        /// Gets (or sets) the current status of the <see cref="Game"/>.
+        /// </summary>
         public GameStatus Status { get; protected set; } = GameStatus.NotStarted;
+
+        /// <summary>
+        /// Gets (or sets) the time that has elapsed since the start of the game.
+        /// </summary>
         public TimeSpan ElapsedTime { get; protected set; } = new TimeSpan(0);
+
+        /// <summary>
+        /// Gets the amount of <see cref="CubeState.Flagged"/> <see cref="Cube"/>s in the <see cref="MineSpace"/>.
+        /// </summary>
         public int Flagged { get; private set; }
+
+        /// <summary>
+        /// Gets the amount of mined <see cref="Cube"/>s in the <see cref="MineSpace"/>.
+        /// </summary>
         public int MineCount { get => MineSpace.ActualMineCount; }
+
+        /// <summary>
+        /// Gets the amount of successully <see cref="CubeState.Uncovered"/> <see cref="Cube"/>s in the <see cref="MineSpace"/>.
+        /// </summary>
         public int Cleared { get; private set; }
 
         #endregion
@@ -34,6 +60,13 @@ namespace Minesweeper3D.Library
 
         #region Constructors
 
+        /// <summary>
+        /// Initiates a new <see cref="Game"/> instance.
+        /// </summary>
+        /// <param name="width">The width (the amount of X coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
+        /// <param name="height">The height (the amount of Y coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
+        /// <param name="depth">The depth (the amount of Z coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
+        /// <param name="mineCount">The amount of mines this internal <see cref="Minesweeper3D.Library.MineSpace"/> should contain.</param>
         public Game(int width, int height, int depth, int mineCount)
         {
             MineSpace = new MineSpace(width, height, depth, mineCount);
