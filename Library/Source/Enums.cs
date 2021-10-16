@@ -1,4 +1,4 @@
-﻿namespace Minesweeper_3D_Library
+﻿namespace Minesweeper3D.Library
 {
     /// <summary>
     /// Contains all acceptable states of a <see cref="Cube"/>.

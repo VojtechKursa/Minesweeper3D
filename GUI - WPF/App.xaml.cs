@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Minesweeper_3D_WPF
+namespace Minesweeper3D.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

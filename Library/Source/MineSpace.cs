@@ -1,6 +1,6 @@
 using System;
 
-namespace Minesweeper_3D_Library
+namespace Minesweeper3D.Library
 {
     /// <summary>
     /// Represents the playing area of the Minesweeper game. (Equivalent to the minefield in the 2D version)

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Minesweeper_3D_WPF
+namespace Minesweeper3D.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,7 +23,6 @@ namespace Minesweeper_3D_WPF
         public MainWindow()
         {
             InitializeComponent();
-            new Minesweeper_3D_Library.Class1();
         }
     }
 }

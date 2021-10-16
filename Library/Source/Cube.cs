@@ -1,4 +1,4 @@
-﻿namespace Minesweeper_3D_Library
+﻿namespace Minesweeper3D.Library
 {
     /// <summary>
     /// Represents the base unit of the Minesweeper game. (Equivalent to the separate squares/boxes in 2D version)

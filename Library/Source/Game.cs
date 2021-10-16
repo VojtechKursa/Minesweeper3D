@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace Minesweeper_3D_Library
+namespace Minesweeper3D.Library
 {
     public class Game : IDisposable
     {
