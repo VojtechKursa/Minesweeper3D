@@ -41,7 +41,7 @@ namespace Minesweeper3D.Library
         #region Constructors
 
         /// <summary>
-        /// Creates a new instance of <see cref="Minespace"/>.
+        /// Creates a new instance of <see cref="MineSpace"/>.
         /// </summary>
         /// <param name="width">The width (the amount of X coordinates) of the new <see cref="MineSpace"/>.</param>
         /// <param name="height">The height (the amount of Y coordinates) of the new <see cref="MineSpace"/>.</param>
