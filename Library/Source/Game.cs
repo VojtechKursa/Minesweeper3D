@@ -3,8 +3,6 @@ using System.Timers;
 
 namespace Minesweeper_3D_Library
 {
-    public enum GameStatus { NotStarted, Ongoing, Lost, Won }
-
     public class Game : IDisposable
     {
         #region Variables and Properties

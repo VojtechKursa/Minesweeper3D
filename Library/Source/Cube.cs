@@ -1,11 +1,6 @@
 ﻿namespace Minesweeper_3D_Library
 {
     /// <summary>
-    /// Contains all acceptable states of a <see cref="Cube"/>.
-    /// </summary>
-    public enum CubeState { Covered, Uncovered, Flagged }
-
-    /// <summary>
     /// Represents the base unit of the Minesweeper game. (Equivalent to the separate squares/boxes in 2D version)
     /// </summary>
     public class Cube
