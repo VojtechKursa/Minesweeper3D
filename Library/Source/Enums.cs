@@ -56,7 +56,7 @@
         /// The uncovered <see cref="Cube"/> was mined.
         /// </summary>
         Mine,
-        
+
         /// <summary>
         /// The uncovered <see cref="Cube"/> was clear, didn't contain any mine.
         /// </summary>
@@ -66,7 +66,7 @@
         /// The uncovering operation was stopped because the <see cref="Cube"/> was <see cref="CubeState.Flagged"/>.
         /// </summary>
         Flag,
-        
+
         /// <summary>
         /// The uncovering operation was stopped because the <see cref="Cube"/> was already <see cref="Uncovered"/>.
         /// </summary>

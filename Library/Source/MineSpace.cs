@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Minesweeper3D.Library.Exceptions;
+using System;
 
 namespace Minesweeper3D.Library
 {
@@ -65,9 +66,17 @@ namespace Minesweeper3D.Library
         /// <param name="y">The Y coordinate of the desired cube.</param>
         /// <param name="z">The Z coordinate of the desired cube.</param>
         /// <returns>The cube at the given position.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
         public Cube GetCube(int x, int y, int z)
         {
-            return Cubes[x, y, z];
+            try
+            {
+                return Cubes[x, y, z];
+            }
+            catch
+            {
+                throw new InvalidCoordinatesException();
+            }
         }
 
         /// <summary>
@@ -77,9 +86,10 @@ namespace Minesweeper3D.Library
         /// <param name="y">The Y coordinate.</param>
         /// <param name="z">The Z coordinate.</param>
         /// <returns>The result of the uncovering operation as an <see cref="UncoverResult"/>.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
         public UncoverResult Uncover(int x, int y, int z)
         {
-            Cube cube = Cubes[x, y, z];
+            Cube cube = GetCube(x, y, z);
 
             if (cube.State == CubeState.Flagged)
                 return UncoverResult.Flag;
@@ -103,9 +113,10 @@ namespace Minesweeper3D.Library
         /// <param name="y">The Y coordinate.</param>
         /// <param name="z">The Z coordinate.</param>
         /// <returns>True if the flagging was successful, otherwise false (if the <see cref="Cube"/> was already <see cref="CubeState.Flagged"/> or <see cref="CubeState.Uncovered"/>).</returns>
-        public bool Flag(int x,int y, int z)
+        /// <exception cref="InvalidCoordinatesException"/>
+        public bool Flag(int x, int y, int z)
         {
-            Cube cube = Cubes[x, y, z];
+            Cube cube = GetCube(x, y, z);
 
             if (cube.State == CubeState.Covered)
             {
@@ -123,9 +134,10 @@ namespace Minesweeper3D.Library
         /// <param name="y">The Y coordinate.</param>
         /// <param name="z">The Z coordinate.</param>
         /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> is not <see cref="CubeState.Flagged"/>).</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
         public bool Unflag(int x, int y, int z)
         {
-            Cube cube = Cubes[x, y, z];
+            Cube cube = GetCube(x, y, z);
 
             if (cube.State == CubeState.Flagged)
             {
@@ -143,9 +155,10 @@ namespace Minesweeper3D.Library
         /// <param name="y">The Y coordinate.</param>
         /// <param name="z">The Z coordinate.</param>
         /// <returns>The result of the action as a <see cref="FlagResult"/>.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
         public FlagResult ChangeFlag(int x, int y, int z)
         {
-            Cube cube = Cubes[x, y, z];
+            Cube cube = GetCube(x, y, z);
 
             if (cube.State == CubeState.Covered)
             {
@@ -165,7 +178,8 @@ namespace Minesweeper3D.Library
         /// Finds the position of the given <see cref="Cube"/> in the <see cref="Cubes"/> array.
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> to find.</param>
-        /// <returns>An array of <see cref="int"/> containing the [x,y,z] coordinates of the given <see cref="Cube"/>, or <see cref="null"/> if the <see cref="Cube"/> is not found.</returns>
+        /// <returns>An array of <see cref="int"/> containing the [x,y,z] coordinates of the given <see cref="Cube"/>, or throws a <see cref="CubeNotFoundException"/> if the <see cref="Cube"/> is not found.</returns>
+        /// <exception cref="CubeNotFoundException"/>
         internal int[] GetCubePosition(Cube cube)
         {
             for (int z = 0; z < Depth; z++)
@@ -174,13 +188,13 @@ namespace Minesweeper3D.Library
                 {
                     for (int x = 0; x < Width; x++)
                     {
-                        if (Cubes[x, y, z] == cube)
+                        if (GetCube(x, y, z) == cube)
                             return new int[] { x, y, z };
                     }
                 }
             }
 
-            return null;
+            throw new CubeNotFoundException();
         }
 
         /// <summary>
@@ -188,8 +202,12 @@ namespace Minesweeper3D.Library
         /// </summary>
         /// <param name="position">The position around which to search for mines.</param>
         /// <returns>The amount of mines surrounding the given position.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
         internal byte GetSurroundingMines(int[] position)
         {
+            if (position[0] >= Width || position[1] >= Height || position[2] >= Depth || position[0] < 0 || position[1] < 0 || position[2] < 0)
+                throw new InvalidCoordinatesException();
+
             byte surroundingMines = 0;
 
             int[] lowerLimits = new int[3];
@@ -213,7 +231,7 @@ namespace Minesweeper3D.Library
                         if (x == 0 && y == 0 && z == 0)
                             continue;
 
-                        if (Cubes[position[0] + x, position[1] + y, position[2] + z].HasMine)
+                        if (GetCube(position[0] + x, position[1] + y, position[2] + z).HasMine)
                             surroundingMines++;
                     }
                 }
@@ -227,11 +245,13 @@ namespace Minesweeper3D.Library
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> around which to search for mines.</param>
         /// <returns>The amount of mines surrounding the given <see cref="Cube"/>.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
+        /// <exception cref="CubeNotFoundException"/>
         internal byte GetSurroundingMines(Cube cube)
         {
             int[] cubePosition;
 
-            if (Cubes[cube.Position[0], cube.Position[1], cube.Position[2]] == cube)
+            if (GetCube(cube.Position[0], cube.Position[1], cube.Position[2]) == cube)
                 cubePosition = cube.Position;
             else
                 cubePosition = GetCubePosition(cube);

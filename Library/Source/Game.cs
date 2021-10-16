@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Minesweeper3D.Library.Exceptions;
+using System;
 using System.Timers;
-using Minesweeper3D.Library.Exceptions;
 
 namespace Minesweeper3D.Library
 {
@@ -220,7 +220,12 @@ namespace Minesweeper3D.Library
 
         private void Timer_elapsedTimeRefresh_Elapsed(object sender, ElapsedEventArgs e)
         {
-            RecalculateElapsedTime();
+            try
+            {
+                RecalculateElapsedTime();
+            }
+            catch
+            { }
         }
 
         #endregion
