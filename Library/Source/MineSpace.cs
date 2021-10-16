@@ -45,44 +45,23 @@ namespace Minesweeper_3D_Library
             Cubes = new Cube[width, height, depth];
 
             FillField(mineCount);
+            InitCubes();
         }
 
         #endregion
 
         #region Methods
 
-        private void FillField(int mineCount)
+        /// <summary>
+        /// Returns a <see cref="Cube"/> that's at the given coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate of the desired cube.</param>
+        /// <param name="y">The Y coordinate of the desired cube.</param>
+        /// <param name="z">The Z coordinate of the desired cube.</param>
+        /// <returns>The cube at the given position.</returns>
+        public Cube GetCube(int x, int y, int z)
         {
-            FillMines(mineCount);
-
-            for (int z = 0; z < Depth; z++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    for (int x = 0; x < Width; x++)
-                    {
-                        if (Cubes[x, y, z] == null)
-                            Cubes[x, y, z] = new Cube(this, false, new int[] { x, y, z });
-                    }
-                }
-            }
-        }
-
-        private void FillMines(int mineCount)
-        {
-            Random random = new Random();
-            int limit = mineCount < Width * Height * Depth ? mineCount : Width * Height * Depth;
-
-            int[] coords;
-            for (int i = 0; i < limit; i++)
-            {
-                coords = new int[] { random.Next(0, Width), random.Next(0, Height), random.Next(0, Depth) };
-
-                if (Cubes[coords[0], coords[1], coords[2]] == null)
-                    Cubes[coords[0], coords[1], coords[2]] = new Cube(this, true, new int[] { coords[0], coords[1], coords[2] });
-                else
-                    i--;
-            }
+            return Cubes[x, y, z];
         }
 
         /// <summary>
@@ -161,6 +140,54 @@ namespace Minesweeper_3D_Library
                 cubePosition = GetCubePosition(cube);
 
             return GetSurroundingMines(cubePosition);
+        }
+
+        private void FillField(int mineCount)
+        {
+            FillMines(mineCount);
+
+            for (int z = 0; z < Depth; z++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
+                    {
+                        if (Cubes[x, y, z] == null)
+                            Cubes[x, y, z] = new Cube(this, false, new int[] { x, y, z });
+                    }
+                }
+            }
+        }
+
+        private void FillMines(int mineCount)
+        {
+            Random random = new Random();
+            int limit = mineCount < Width * Height * Depth ? mineCount : Width * Height * Depth;
+
+            int[] coords;
+            for (int i = 0; i < limit; i++)
+            {
+                coords = new int[] { random.Next(0, Width), random.Next(0, Height), random.Next(0, Depth) };
+
+                if (Cubes[coords[0], coords[1], coords[2]] == null)
+                    Cubes[coords[0], coords[1], coords[2]] = new Cube(this, true, new int[] { coords[0], coords[1], coords[2] });
+                else
+                    i--;
+            }
+        }
+
+        private void InitCubes()
+        {
+            for (int z = 0; z < Depth; z++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++)
+                    {
+                        Cubes[x, y, z].Init();
+                    }
+                }
+            }
         }
 
         #endregion
