@@ -29,6 +29,11 @@ namespace Minesweeper_3D_Library
         /// </summary>
         public int Depth { get => Cubes.GetLength(2); }
 
+        /// <summary>
+        /// Gets the actual number of mines present in the <see cref="MineSpace"/>.
+        /// </summary>
+        public int ActualMineCount { get; }
+
         #endregion
 
         #region Constructors
@@ -44,7 +49,7 @@ namespace Minesweeper_3D_Library
         {
             Cubes = new Cube[width, height, depth];
 
-            FillField(mineCount);
+            ActualMineCount = FillField(mineCount);
             InitCubes();
         }
 
@@ -142,9 +147,9 @@ namespace Minesweeper_3D_Library
             return GetSurroundingMines(cubePosition);
         }
 
-        private void FillField(int mineCount)
+        private int FillField(int mineCount)
         {
-            FillMines(mineCount);
+            int minesCreated = FillMines(mineCount);
 
             for (int z = 0; z < Depth; z++)
             {
@@ -157,9 +162,11 @@ namespace Minesweeper_3D_Library
                     }
                 }
             }
+
+            return minesCreated;
         }
 
-        private void FillMines(int mineCount)
+        private int FillMines(int mineCount)
         {
             Random random = new Random();
             int limit = mineCount < Width * Height * Depth ? mineCount : Width * Height * Depth;
@@ -174,6 +181,8 @@ namespace Minesweeper_3D_Library
                 else
                     i--;
             }
+
+            return limit;
         }
 
         private void InitCubes()
