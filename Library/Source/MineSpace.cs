@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 
 namespace Minesweeper3D.Library
 {
     /// <summary>
-    /// Represents the playing area of the Minesweeper game. (Equivalent to the minefield in the 2D version)
+    /// Represents the playing area of the Minesweeper game. (Equivalent to the minefield in the 2D version)<br />
+    /// Contains basic methods and properties for getting information about and interacting with the playing area.
     /// </summary>
     public class MineSpace
     {
@@ -145,6 +146,97 @@ namespace Minesweeper3D.Library
                 cubePosition = GetCubePosition(cube);
 
             return GetSurroundingMines(cubePosition);
+        }
+
+        /// <summary>
+        /// Attempts to uncover a <see cref="Cube"/> at the given coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns>The result of the uncovering operation as an <see cref="UncoverResult"/>.</returns>
+        public UncoverResult Uncover(int x, int y, int z)
+        {
+            Cube cube = Cubes[x, y, z];
+
+            if (cube.State == CubeState.Flagged)
+                return UncoverResult.Flag;
+            else if (cube.State == CubeState.Uncovered)
+                return UncoverResult.Uncovered;
+            else
+            {
+                cube.State = CubeState.Uncovered;
+
+                if (cube.HasMine)
+                    return UncoverResult.Mine;
+                else
+                    return UncoverResult.Clear;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to flag a <see cref="Cube"/> at the given coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns>True if the flagging was successful, otherwise false (if the <see cref="Cube"/> was already <see cref="CubeState.Flagged"/> or <see cref="CubeState.Uncovered"/>).</returns>
+        public bool Flag(int x,int y, int z)
+        {
+            Cube cube = Cubes[x, y, z];
+
+            if (cube.State == CubeState.Covered)
+            {
+                cube.State = CubeState.Flagged;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Attempts to unflag a <see cref="Cube"/> at the given coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> is not <see cref="CubeState.Flagged"/>).</returns>
+        public bool Unflag(int x, int y, int z)
+        {
+            Cube cube = Cubes[x, y, z];
+
+            if (cube.State == CubeState.Flagged)
+            {
+                cube.State = CubeState.Covered;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Attempts to change the flag state of a <see cref="Cube"/> at the given coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns>The result of the action as a <see cref="FlagResult"/>.</returns>
+        public FlagResult ChangeFlag(int x, int y, int z)
+        {
+            Cube cube = Cubes[x, y, z];
+
+            if (cube.State == CubeState.Covered)
+            {
+                cube.State = CubeState.Flagged;
+                return FlagResult.Flagged;
+            }
+            else if (cube.State == CubeState.Flagged)
+            {
+                cube.State = CubeState.Covered;
+                return FlagResult.Unflagged;
+            }
+            else
+                return FlagResult.Uncovered;
         }
 
         private int FillField(int mineCount)

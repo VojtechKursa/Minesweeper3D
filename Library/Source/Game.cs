@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Timers;
+using Minesweeper3D.Library.Exceptions;
 
 namespace Minesweeper3D.Library
 {
@@ -9,11 +10,13 @@ namespace Minesweeper3D.Library
         #region Public
 
         public MineSpace MineSpace { get; }
+        public int CubeCount { get; }
 
-        public GameStatus Status { get; } = GameStatus.NotStarted;
+        public GameStatus Status { get; protected set; } = GameStatus.NotStarted;
         public TimeSpan ElapsedTime { get; protected set; } = new TimeSpan(0);
-        public int PlacedFlags { get; private set; }
-        public int MinesPresent { get => MineSpace.ActualMineCount; }
+        public int Flagged { get; private set; }
+        public int MineCount { get => MineSpace.ActualMineCount; }
+        public int Cleared { get; private set; }
 
         #endregion
 
@@ -35,6 +38,8 @@ namespace Minesweeper3D.Library
         {
             MineSpace = new MineSpace(width, height, depth, mineCount);
 
+            CubeCount = MineSpace.Width * MineSpace.Height * MineSpace.Depth;
+
             timer_elapsedTimeRefresh.Elapsed += Timer_elapsedTimeRefresh_Elapsed;
         }
 
@@ -43,11 +48,43 @@ namespace Minesweeper3D.Library
         #region Methods
         #region Public
 
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            timer_elapsedTimeRefresh.Dispose();
+        }
+
+        /// <summary>
+        /// Starts the game.<br />
+        /// <br />
+        /// If the <see cref="Game"/>'s <see cref="Status"/> is <see cref="GameStatus.NotStarted"/>, starts the timer, sets the <see cref="Status"/> to <see cref="GameStatus.Ongoing"/> and returns true.<br />
+        /// Otherwise returns false.
+        /// </summary>
+        /// <returns>True if the game was sucessfully started, otherwise false.</returns>
+        public bool StartGame()
+        {
+            if (Status == GameStatus.NotStarted)
+            {
+                StartTimer();
+                Status = GameStatus.Ongoing;
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Starts the game timer.
+        /// </summary>
         public void StartTimer()
         {
             timer_elapsedTimeRefresh.Start();
         }
 
+        /// <summary>
+        /// Stops the game timer and recalculates the elapsed time.
+        /// </summary>
         public void StopTimer()
         {
             timer_elapsedTimeRefresh.Stop();
@@ -55,15 +92,88 @@ namespace Minesweeper3D.Library
             RecalculateElapsedTime();
         }
 
-        public void Dispose()
+        /// <summary>
+        /// <inheritdoc cref="MineSpace.Uncover(int, int, int)"/><br />
+        /// Updates the <see cref="Cleared"/> property and evaluates <see cref="Game"/>'s <see cref="Status"/>.<br />
+        /// <br />
+        /// If the uncovered <see cref="Cube"/> was mined, the <see cref="Game"/>'s <see cref="Status"/> is set to <see cref="GameStatus.Lost"/> and timer is stopped.<br />
+        /// If the <see cref="MineSpace"/> has been completely cleared, the <see cref="Game"/>'s <see cref="Status"/> is set to <see cref="GameStatus.Won"/> and timer is stopped.<br />
+        /// If the <see cref="Game"/>'s <see cref="Status"/> is <see cref="GameStatus.NotStarted"/>, the <see cref="StartGame"/> is called and then method continues as usual.<br />
+        /// If the <see cref="Game"/>'s <see cref="Status"/> is either <see cref="GameStatus.Won"/> or <see cref="GameStatus.Lost"/>, a <see cref="GameOverException"/> is thrown.
+        /// </summary>
+        /// <exception cref="GameOverException"/>
+        /// <inheritdoc cref="MineSpace.Uncover(int, int, int)"/>
+        public UncoverResult Uncover(int x, int y, int z)
         {
-            GC.SuppressFinalize(this);
-            timer_elapsedTimeRefresh.Dispose();
+            if (Status == GameStatus.NotStarted)
+                StartGame();
+
+            if (Status == GameStatus.Ongoing)
+            {
+                UncoverResult uncoverResult = MineSpace.Uncover(x, y, z);
+
+                if (uncoverResult == UncoverResult.Mine)
+                    Lose();
+                else if (uncoverResult == UncoverResult.Clear)
+                {
+                    Cleared++;
+
+                    if (Cleared == CubeCount - MineCount)
+                        Win();
+                }
+
+                return uncoverResult;
+            }
+            else
+                throw new GameOverException();
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="MineSpace.ChangeFlag(int, int, int)"/><br />
+        /// Updates the <see cref="Flagged"/> property.<br />
+        /// <br />
+        /// If the <see cref="Game"/>'s <see cref="Status"/> is <see cref="GameStatus.NotStarted"/>, the <see cref="StartGame"/> is called and then method continues as usual.<br />
+        /// If the <see cref="Game"/>'s <see cref="Status"/> is either <see cref="GameStatus.Won"/> or <see cref="GameStatus.Lost"/>, a <see cref="GameOverException"/> is thrown.
+        /// </summary>
+        /// <exception cref="GameOverException"/>
+        /// <inheritdoc cref="MineSpace.ChangeFlag(int, int, int)"/>
+        public FlagResult ChangeFlag(int x, int y, int z)
+        {
+            if (Status == GameStatus.NotStarted)
+                StartGame();
+
+            if (Status == GameStatus.Ongoing)
+            {
+                FlagResult flagResult = MineSpace.ChangeFlag(x, y, z);
+
+                if (flagResult == FlagResult.Flagged)
+                    Flagged++;
+                else if (flagResult == FlagResult.Unflagged)
+                    Flagged--;
+
+                return flagResult;
+            }
+            else
+                throw new GameOverException();
         }
 
         #endregion
 
         #region Not public
+
+        protected void Win()
+        {
+            StopTimer();
+
+            Status = GameStatus.Won;
+        }
+
+        protected void Lose()
+        {
+            StopTimer();
+
+            Status = GameStatus.Lost;
+        }
 
         private void RecalculateElapsedTime()
         {

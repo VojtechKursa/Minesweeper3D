@@ -48,7 +48,7 @@
     }
 
     /// <summary>
-    /// Contains all possible results of a cube uncovering action.
+    /// Contains all possible results of a <see cref="Cube"/> uncovering action.
     /// </summary>
     public enum UncoverResult
     {
@@ -69,6 +69,27 @@
         
         /// <summary>
         /// The uncovering operation was stopped because the <see cref="Cube"/> was already <see cref="Uncovered"/>.
+        /// </summary>
+        Uncovered
+    }
+
+    /// <summary>
+    /// Contains all possible results of a <see cref="Cube"/> change-flag action.
+    /// </summary>
+    public enum FlagResult
+    {
+        /// <summary>
+        /// Specifies that the <see cref="Cube"/> was successfully flagged.
+        /// </summary>
+        Flagged,
+
+        /// <summary>
+        /// Specifies that the <see cref="Cube"/> was successuflly unflagged.
+        /// </summary>
+        Unflagged,
+
+        /// <summary>
+        /// Specifies that the <see cref="Cube"/> was already <see cref="CubeState.Uncovered"/> and therefore couldn't be flagged nor unflagged.
         /// </summary>
         Uncovered
     }
