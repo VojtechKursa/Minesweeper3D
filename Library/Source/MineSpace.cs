@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Minesweeper_3D_Library
 {
@@ -74,7 +74,7 @@ namespace Minesweeper_3D_Library
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> to find.</param>
         /// <returns>An array of <see cref="int"/> containing the [x,y,z] coordinates of the given <see cref="Cube"/>, or <see cref="null"/> if the <see cref="Cube"/> is not found.</returns>
-        public int[] GetCubePosition(Cube cube)
+        internal int[] GetCubePosition(Cube cube)
         {
             for (int z = 0; z < Depth; z++)
             {
@@ -96,7 +96,7 @@ namespace Minesweeper_3D_Library
         /// </summary>
         /// <param name="position">The position around which to search for mines.</param>
         /// <returns>The amount of mines surrounding the given position.</returns>
-        public byte GetSurroundingMines(int[] position)
+        internal byte GetSurroundingMines(int[] position)
         {
             byte surroundingMines = 0;
 
@@ -135,7 +135,7 @@ namespace Minesweeper_3D_Library
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> around which to search for mines.</param>
         /// <returns>The amount of mines surrounding the given <see cref="Cube"/>.</returns>
-        public byte GetSurroundingMines(Cube cube)
+        internal byte GetSurroundingMines(Cube cube)
         {
             int[] cubePosition;
 
