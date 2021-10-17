@@ -1,0 +1,18 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper3D.WPF.GUI.Windows"
+        xmlns:Modules="clr-namespace:Minesweeper3D.WPF.GUI.Modules" x:Class="Minesweeper3D.WPF.GUI.Windows.MainWindow"
+        mc:Ignorable="d"
+        Title="Minesweeper 3D (Only for crazy people)" Height="450" Width="800">
+    <Grid>
+        <Modules:InfoStripe x:Name="infoStripe" VerticalAlignment="Top" Height="30"/>
+        <Modules:NumericUpDown x:Name="Nud_depth" Margin="0,39,10,0" HorizontalAlignment="Right" Width="64" Height="40" VerticalAlignment="Top"/>
+        <Button x:Name="B_new" Content="New" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="25" VerticalAlignment="Bottom" Click="B_new_Click"/>
+        <Modules:GameModule x:Name="gameModule" Margin="10,39,79,10"/>
+        <Image x:Name="Img_test" HorizontalAlignment="Left" Height="100" Margin="706,202,0,0" VerticalAlignment="Top" Width="100"/>
+
+    </Grid>
+</Window>
