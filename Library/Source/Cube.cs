@@ -79,6 +79,77 @@
             SurroundingMines = Parent.GetSurroundingMines(this);
         }
 
+        /// <summary>
+        /// Attempts to uncover the <see cref="Cube"/>.
+        /// </summary>
+        /// <returns>The result of the uncovering operation as an <see cref="UncoverResult"/>.</returns>
+        public UncoverResult Uncover()
+        {
+            if (State == CubeState.Flagged)
+                return UncoverResult.Flag;
+            else if (State == CubeState.Uncovered)
+                return UncoverResult.Uncovered;
+            else
+            {
+                State = CubeState.Uncovered;
+
+                if (HasMine)
+                    return UncoverResult.Mine;
+                else
+                    return UncoverResult.Clear;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to flag the <see cref="Cube"/>.
+        /// </summary>
+        /// <returns>True if the flagging was successful, otherwise false (if the <see cref="Cube"/> was already <see cref="CubeState.Flagged"/> or <see cref="CubeState.Uncovered"/>).</returns>
+        public bool Flag()
+        {
+            if (State == CubeState.Covered)
+            {
+                State = CubeState.Flagged;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Attempts to unflag the <see cref="Cube"/>.
+        /// </summary>
+        /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> was not <see cref="CubeState.Flagged"/>).</returns>
+        public bool Unflag()
+        {
+            if (State == CubeState.Flagged)
+            {
+                State = CubeState.Covered;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Attempts to change the flag state of the <see cref="Cube"/>.
+        /// </summary>
+        /// <returns>The result of the action as a <see cref="FlagResult"/>.</returns>
+        public FlagResult ChangeFlag()
+        {
+            if (State == CubeState.Covered)
+            {
+                State = CubeState.Flagged;
+                return FlagResult.Flagged;
+            }
+            else if (State == CubeState.Flagged)
+            {
+                State = CubeState.Covered;
+                return FlagResult.Unflagged;
+            }
+            else
+                return FlagResult.Uncovered;
+        }
+
         #endregion
     }
 }

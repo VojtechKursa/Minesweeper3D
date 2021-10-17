@@ -65,6 +65,7 @@ namespace Minesweeper3D.Library
         #endregion
 
         #region Methods
+        #region Public
 
         /// <summary>
         /// Returns a <see cref="Cube"/> that's at the given coordinates.
@@ -140,6 +141,16 @@ namespace Minesweeper3D.Library
         }
 
         /// <summary>
+        /// Attempts to uncover the given <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cube">The <see cref="Cube"/> to uncover.</param>
+        /// <returns>The result of the uncovering operation as an <see cref="UncoverResult"/>.</returns>
+        public static UncoverResult Uncover(Cube cube)
+        {
+            return cube.Uncover();
+        }
+
+        /// <summary>
         /// Attempts to uncover a <see cref="Cube"/> at the given coordinates.
         /// </summary>
         /// <param name="x">The X coordinate.</param>
@@ -149,21 +160,17 @@ namespace Minesweeper3D.Library
         /// <exception cref="InvalidCoordinatesException"/>
         public UncoverResult Uncover(int x, int y, int z)
         {
-            Cube cube = GetCube(x, y, z);
+            return Uncover(GetCube(x, y, z));
+        }
 
-            if (cube.State == CubeState.Flagged)
-                return UncoverResult.Flag;
-            else if (cube.State == CubeState.Uncovered)
-                return UncoverResult.Uncovered;
-            else
-            {
-                cube.State = CubeState.Uncovered;
-
-                if (cube.HasMine)
-                    return UncoverResult.Mine;
-                else
-                    return UncoverResult.Clear;
-            }
+        /// <summary>
+        /// Attempts to flag the given <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cube">The <see cref="Cube"/> to flag.</param>
+        /// <returns>True if the flagging was successful, otherwise false (if the <see cref="Cube"/> was already <see cref="CubeState.Flagged"/> or <see cref="CubeState.Uncovered"/>).</returns>
+        public static bool Flag(Cube cube)
+        {
+            return cube.Flag();
         }
 
         /// <summary>
@@ -176,15 +183,17 @@ namespace Minesweeper3D.Library
         /// <exception cref="InvalidCoordinatesException"/>
         public bool Flag(int x, int y, int z)
         {
-            Cube cube = GetCube(x, y, z);
+            return Flag(GetCube(x, y, z));
+        }
 
-            if (cube.State == CubeState.Covered)
-            {
-                cube.State = CubeState.Flagged;
-                return true;
-            }
-            else
-                return false;
+        /// <summary>
+        /// Attempts to unflag the given <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cube">The <see cref="Cube"/> to unflag.</param>
+        /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> was not <see cref="CubeState.Flagged"/>).</returns>
+        public static bool Unflag(Cube cube)
+        {
+            return cube.Unflag();
         }
 
         /// <summary>
@@ -193,19 +202,21 @@ namespace Minesweeper3D.Library
         /// <param name="x">The X coordinate.</param>
         /// <param name="y">The Y coordinate.</param>
         /// <param name="z">The Z coordinate.</param>
-        /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> is not <see cref="CubeState.Flagged"/>).</returns>
+        /// <returns>True if the unflagging was successful, otherwise false (if the <see cref="Cube"/> was not <see cref="CubeState.Flagged"/>).</returns>
         /// <exception cref="InvalidCoordinatesException"/>
         public bool Unflag(int x, int y, int z)
         {
-            Cube cube = GetCube(x, y, z);
+            return Unflag(GetCube(x, y, z));
+        }
 
-            if (cube.State == CubeState.Flagged)
-            {
-                cube.State = CubeState.Covered;
-                return true;
-            }
-            else
-                return false;
+        /// <summary>
+        /// Attempts to change the flag state of the given <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cube">The <see cref="Cube"/> whose flag state to change.</param>
+        /// <returns>The result of the action as a <see cref="FlagResult"/>.</returns>
+        public static FlagResult ChangeFlag(Cube cube)
+        {
+            return cube.ChangeFlag();
         }
 
         /// <summary>
@@ -218,21 +229,12 @@ namespace Minesweeper3D.Library
         /// <exception cref="InvalidCoordinatesException"/>
         public FlagResult ChangeFlag(int x, int y, int z)
         {
-            Cube cube = GetCube(x, y, z);
-
-            if (cube.State == CubeState.Covered)
-            {
-                cube.State = CubeState.Flagged;
-                return FlagResult.Flagged;
-            }
-            else if (cube.State == CubeState.Flagged)
-            {
-                cube.State = CubeState.Covered;
-                return FlagResult.Unflagged;
-            }
-            else
-                return FlagResult.Uncovered;
+            return ChangeFlag(GetCube(x, y, z));
         }
+
+        #endregion
+
+        #region Non public
 
         /// <summary>
         /// Checks the initial values of the <see cref="MineSpace"/>.
@@ -371,6 +373,7 @@ namespace Minesweeper3D.Library
             }
         }
 
+        #endregion
         #endregion
     }
 }
