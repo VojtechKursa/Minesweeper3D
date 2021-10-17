@@ -1,5 +1,6 @@
 ﻿using Minesweeper3D.Library.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace Minesweeper3D.Library
 {
@@ -83,6 +84,59 @@ namespace Minesweeper3D.Library
             {
                 throw new InvalidCoordinatesException();
             }
+        }
+
+        /// <summary>
+        /// Returns an array of <see cref="Cube"/>s surrounding the given <see cref="Cube"/>.
+        /// </summary>
+        /// <param name="cube">The <see cref="Cube"/> around which the scan will be performed.</param>
+        /// <returns>An array of <see cref="Cube"/>s surrounding the given <see cref="Cube"/>.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
+        public Cube[] GetSurroundingCubes(Cube cube)
+        {
+            return GetSurroundingCubes(cube.Position[0], cube.Position[1], cube.Position[2]);
+        }
+
+        /// <summary>
+        /// Returns an array of <see cref="Cube"/>s surrounding the given position.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns>An array of <see cref="Cube"/>s surrounding the given position.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
+        public Cube[] GetSurroundingCubes(int x, int y, int z)
+        {
+            if (x >= Width || y >= Height || z >= Depth || x < 0 || y < 0 || z < 0)
+                throw new InvalidCoordinatesException();
+
+            int[] lowerLimits = new int[3];
+            lowerLimits[0] = x - 1 < 0 ? 0 : x - 1;
+            lowerLimits[1] = y - 1 < 0 ? 0 : y - 1;
+            lowerLimits[2] = z - 1 < 0 ? 0 : z - 1;
+
+            int[] upperLimits = new int[3];
+            upperLimits[0] = x + 1 >= Width ? Width : x + 2;
+            upperLimits[1] = y + 1 >= Height ? Height : y + 2;
+            upperLimits[2] = z + 1 >= Depth ? Depth : z + 2;
+
+            List<Cube> cubes = new List<Cube>();
+
+            for (int zz = lowerLimits[2]; zz < upperLimits[2]; zz++)
+            {
+                for (int yy = lowerLimits[1]; yy < upperLimits[1]; yy++)
+                {
+                    for (int xx = lowerLimits[0]; xx < upperLimits[0]; xx++)
+                    {
+                        if (xx== x && yy==y && zz== z)
+                            continue;
+                        else
+                            cubes.Add(GetCube(xx, yy, zz));
+                    }
+                }
+            }
+
+            return cubes.ToArray();
         }
 
         /// <summary>
@@ -181,6 +235,28 @@ namespace Minesweeper3D.Library
         }
 
         /// <summary>
+        /// Checks the initial values of the <see cref="MineSpace"/>.
+        /// </summary>
+        /// <param name="width">The width parameter.</param>
+        /// <param name="height">The height parameter.</param>
+        /// <param name="depth">The depth parameter.</param>
+        /// <param name="mineCount">The mineCount parameter.</param>
+        /// <returns>An <see cref="ArgumentException"/> with a message containing an error description if any of the values are invalid, otherwise null.</returns>
+        internal static ArgumentException CheckValues(int width, int height, int depth, int mineCount)
+        {
+            if (width < 1)
+                return new ArgumentException(nameof(width) + " cannot be lower than 1.");
+            else if (height < 1)
+                return new ArgumentException(nameof(height) + " cannot be lower than 1.");
+            else if (depth < 1)
+                return new ArgumentException(nameof(depth) + " cannot be lower than 1.");
+            else if (mineCount < 0)
+                return new ArgumentException(nameof(mineCount) + " cannot be lower than 0.");
+            else
+                return null;
+        }
+
+        /// <summary>
         /// Finds the position of the given <see cref="Cube"/> in the <see cref="Cubes"/> array.
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> to find.</param>
@@ -204,49 +280,6 @@ namespace Minesweeper3D.Library
         }
 
         /// <summary>
-        /// Gets the amount of mines surrounding a given position.
-        /// </summary>
-        /// <param name="position">The position around which to search for mines.</param>
-        /// <returns>The amount of mines surrounding the given position.</returns>
-        /// <exception cref="InvalidCoordinatesException"/>
-        internal byte GetSurroundingMines(int[] position)
-        {
-            if (position[0] >= Width || position[1] >= Height || position[2] >= Depth || position[0] < 0 || position[1] < 0 || position[2] < 0)
-                throw new InvalidCoordinatesException();
-
-            byte surroundingMines = 0;
-
-            int[] lowerLimits = new int[3];
-            for (int i = 0; i < lowerLimits.Length; i++)
-            {
-                lowerLimits[i] = position[i] - 1 < 0 ? 0 : position[i] - 1;
-            }
-
-            int[] upperLimits = new int[3];
-            upperLimits[0] = position[0] + 1 >= Width ? Width : position[0] + 2;
-            upperLimits[1] = position[1] + 1 >= Height ? Height : position[1] + 2;
-            upperLimits[2] = position[2] + 1 >= Depth ? Depth : position[2] + 2;
-
-
-            for (int z = lowerLimits[2]; z < upperLimits[2]; z++)
-            {
-                for (int y = lowerLimits[1]; y < upperLimits[1]; y++)
-                {
-                    for (int x = lowerLimits[0]; x < upperLimits[0]; x++)
-                    {
-                        if (x == 0 && y == 0 && z == 0)
-                            continue;
-
-                        if (GetCube(position[0] + x, position[1] + y, position[2] + z).HasMine)
-                            surroundingMines++;
-                    }
-                }
-            }
-
-            return surroundingMines;
-        }
-
-        /// <summary>
         /// Gets the amount of mines surrounding a given <see cref="Cube"/>.
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> around which to search for mines.</param>
@@ -262,29 +295,28 @@ namespace Minesweeper3D.Library
             else
                 cubePosition = GetCubePosition(cube);
 
-            return GetSurroundingMines(cubePosition);
+            return GetSurroundingMines(cubePosition[0], cubePosition[1], cubePosition[2]);
         }
 
         /// <summary>
-        /// Checks the initial values of the <see cref="MineSpace"/>.
+        /// Gets the amount of mines surrounding a given position.
         /// </summary>
-        /// <param name="width">The width parameter.</param>
-        /// <param name="height">The height parameter.</param>
-        /// <param name="depth">The depth parameter.</param>
-        /// <param name="mineCount">The mineCount parameter.</param>
-        /// <returns>An <see cref="ArgumentException"/> with a message containing an error description if any of the values are invalid, otherwise null.</returns>
-        internal static ArgumentException CheckValues(int width, int height, int depth, int mineCount)
+        /// <param name="position">The position around which to search for mines.</param>
+        /// <returns>The amount of mines surrounding the given position.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
+        internal byte GetSurroundingMines(int x, int y, int z)
         {
-            if (width < 1)
-                return new ArgumentException(nameof(width) + " cannot be lower than 1.");
-            else if (height < 1)
-                return new ArgumentException(nameof(height) + " cannot be lower than 1.");
-            else if (depth < 1)
-                return new ArgumentException(nameof(depth) + " cannot be lower than 1.");
-            else if (mineCount < 0)
-                return new ArgumentException(nameof(mineCount) + " cannot be lower than 0.");
-            else
-                return null;
+            Cube[] cubes = GetSurroundingCubes(x, y, z);
+
+            byte surroundingMines = 0;
+
+            foreach(Cube cube in cubes)
+            {
+                if (cube.HasMine)
+                    surroundingMines++;
+            }
+
+            return surroundingMines;
         }
 
         private int FillField(int mineCount)

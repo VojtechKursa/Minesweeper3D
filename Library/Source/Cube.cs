@@ -24,7 +24,7 @@
         public byte SurroundingMines { get; protected set; }
 
         /// <summary>
-        /// Gets (or sets) the position of the <see cref="Cube"/>.
+        /// Gets (or sets) the position of the <see cref="Cube"/> as an array of <see cref="int"/> in [x,y,z] format.
         /// </summary>
         public int[] Position { get; protected set; } = null;
 
