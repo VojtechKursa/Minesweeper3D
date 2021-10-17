@@ -88,6 +88,31 @@ namespace Minesweeper3D.Library
         }
 
         /// <summary>
+        /// Returns a 2D array of all <see cref="Cube"/>s at a certain depth.<br />
+        /// If the depths is greater than or equal to <see cref="Depth"/>, throws an <see cref="InvalidCoordinatesException"/>.
+        /// </summary>
+        /// <param name="depth">The zero-based depth from which to take the layer.</param>
+        /// <returns>A 2D array of all <see cref="Cube"/>s at a certain depth.</returns>
+        /// <exception cref="InvalidCoordinatesException"/>
+        public Cube[,] GetLayer(int depth)
+        {
+            if (depth >= Depth)
+                throw new InvalidCoordinatesException();
+
+            Cube[,] layer = new Cube[Width, Height];
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    layer[x, y] = GetCube(x, y, depth);
+                }
+            }
+
+            return layer;
+        }
+
+        /// <summary>
         /// Returns an array of <see cref="Cube"/>s surrounding the given <see cref="Cube"/>.
         /// </summary>
         /// <param name="cube">The <see cref="Cube"/> around which the scan will be performed.</param>
