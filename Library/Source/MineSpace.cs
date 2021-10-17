@@ -41,14 +41,20 @@ namespace Minesweeper3D.Library
         #region Constructors
 
         /// <summary>
-        /// Creates a new instance of <see cref="MineSpace"/>.
+        /// Creates a new instance of <see cref="MineSpace"/>.<br />
+        /// Throws an <see cref="ArgumentException"/> when any of width, depth or height is less than 1 or when mineCount is less than 0.
         /// </summary>
         /// <param name="width">The width (the amount of X coordinates) of the new <see cref="MineSpace"/>.</param>
         /// <param name="height">The height (the amount of Y coordinates) of the new <see cref="MineSpace"/>.</param>
         /// <param name="depth">The depth (the amount of Z coordinates) of the new <see cref="MineSpace"/>.</param>
         /// <param name="mineCount">The amount of mines this new <see cref="MineSpace"/> should contain.</param>
+        /// <exception cref="ArgumentException"/>
         public MineSpace(int width, int height, int depth, int mineCount)
         {
+            ArgumentException exception = CheckValues(width, height, depth, mineCount);
+            if (exception != null)
+                throw exception;
+
             Cubes = new Cube[width, height, depth];
 
             ActualMineCount = FillField(mineCount);
@@ -257,6 +263,28 @@ namespace Minesweeper3D.Library
                 cubePosition = GetCubePosition(cube);
 
             return GetSurroundingMines(cubePosition);
+        }
+
+        /// <summary>
+        /// Checks the initial values of the <see cref="MineSpace"/>.
+        /// </summary>
+        /// <param name="width">The width parameter.</param>
+        /// <param name="height">The height parameter.</param>
+        /// <param name="depth">The depth parameter.</param>
+        /// <param name="mineCount">The mineCount parameter.</param>
+        /// <returns>An <see cref="ArgumentException"/> with a message containing an error description if any of the values are invalid, otherwise null.</returns>
+        internal static ArgumentException CheckValues(int width, int height, int depth, int mineCount)
+        {
+            if (width < 1)
+                return new ArgumentException(nameof(width) + " cannot be lower than 1.");
+            else if (height < 1)
+                return new ArgumentException(nameof(height) + " cannot be lower than 1.");
+            else if (depth < 1)
+                return new ArgumentException(nameof(depth) + " cannot be lower than 1.");
+            else if (mineCount < 0)
+                return new ArgumentException(nameof(mineCount) + " cannot be lower than 0.");
+            else
+                return null;
         }
 
         private int FillField(int mineCount)

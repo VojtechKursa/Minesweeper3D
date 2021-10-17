@@ -61,12 +61,14 @@ namespace Minesweeper3D.Library
         #region Constructors
 
         /// <summary>
-        /// Initiates a new <see cref="Game"/> instance.
+        /// Initiates a new <see cref="Game"/> instance.<br />
+        /// Throws an <see cref="ArgumentException"/> when any of width, depth or height is less than 1 or when mineCount is less than 0.
         /// </summary>
         /// <param name="width">The width (the amount of X coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
         /// <param name="height">The height (the amount of Y coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
         /// <param name="depth">The depth (the amount of Z coordinates) of the internal <see cref="Minesweeper3D.Library.MineSpace"/>.</param>
         /// <param name="mineCount">The amount of mines this internal <see cref="Minesweeper3D.Library.MineSpace"/> should contain.</param>
+        /// <exception cref="ArgumentException"/>
         public Game(int width, int height, int depth, int mineCount)
         {
             MineSpace = new MineSpace(width, height, depth, mineCount);
