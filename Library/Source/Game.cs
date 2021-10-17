@@ -1,5 +1,6 @@
 ﻿using Minesweeper3D.Library.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 
 namespace Minesweeper3D.Library
@@ -132,7 +133,8 @@ namespace Minesweeper3D.Library
 
         /// <summary>
         /// <inheritdoc cref="MineSpace.Uncover(int, int, int)"/><br />
-        /// Updates the <see cref="Cleared"/> property and evaluates <see cref="Game"/>'s <see cref="Status"/>.<br />
+        /// If the number of <see cref="Cube.SurroundingMines"/> of the uncovered <see cref="Cube"/> is 0, starts uncovering all of the safe <see cref="Cube"/>s around it.<br />
+        /// Updates the <see cref="Cleared"/> property and evaluates the <see cref="Status"/>.<br />
         /// <br />
         /// If the uncovered <see cref="Cube"/> was mined, the <see cref="Game"/>'s <see cref="Status"/> is set to <see cref="GameStatus.Lost"/> and timer is stopped.<br />
         /// If the <see cref="MineSpace"/> has been completely cleared, the <see cref="Game"/>'s <see cref="Status"/> is set to <see cref="GameStatus.Won"/> and timer is stopped.<br />
@@ -148,13 +150,20 @@ namespace Minesweeper3D.Library
 
             if (Status == GameStatus.Ongoing)
             {
-                UncoverResult uncoverResult = MineSpace.Uncover(x, y, z);
+                Cube cube = MineSpace.GetCube(x, y, z);
+                UncoverResult uncoverResult = cube.Uncover();
 
                 if (uncoverResult == UncoverResult.Mine)
                     Lose();
                 else if (uncoverResult == UncoverResult.Clear)
                 {
                     Cleared++;
+
+                    if (cube.SurroundingMines == 0)
+                    {
+                        if (UncoverSafe(cube) > 0)
+                            uncoverResult = UncoverResult.ClearMultiple;
+                    }
 
                     if (Cleared == CubeCount - MineCount)
                         Win();
@@ -216,6 +225,50 @@ namespace Minesweeper3D.Library
         private void RecalculateElapsedTime()
         {
             ElapsedTime = new TimeSpan(DateTime.Now.Ticks - gameStartTime.Ticks);
+        }
+
+        private int UncoverSafe(Cube cube)
+        {
+            int uncoveredCubes = 0;
+            Queue<Cube> uncoverQueue = new Queue<Cube>(GetUncoverable(MineSpace.GetSurroundingCubes(cube)));
+
+            Cube currentCube;
+            Cube[] cubesToAdd;
+
+            while (uncoverQueue.Count > 0)
+            {
+                currentCube = uncoverQueue.Dequeue();
+
+                currentCube.Uncover();
+                uncoveredCubes++;
+
+                if (currentCube.SurroundingMines == 0)
+                {
+                    cubesToAdd = GetUncoverable(MineSpace.GetSurroundingCubes(cube));
+
+                    foreach (Cube x in cubesToAdd)
+                    {
+                        uncoverQueue.Enqueue(x);
+                    }
+                }
+            }
+
+            Cleared += uncoveredCubes;
+
+            return uncoveredCubes;
+        }
+
+        private static Cube[] GetUncoverable(Cube[] cubes)
+        {
+            List<Cube> uncoverable = new List<Cube>();
+
+            foreach (Cube cube in cubes)
+            {
+                if (cube.State == CubeState.Covered)
+                    uncoverable.Add(cube);
+            }
+
+            return uncoverable.ToArray();
         }
 
         #endregion

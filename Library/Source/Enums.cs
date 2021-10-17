@@ -58,9 +58,15 @@
         Mine,
 
         /// <summary>
-        /// The uncovered <see cref="Cube"/> was clear, didn't contain any mine.
+        /// The uncovered <see cref="Cube"/> was clear (didn't contain any mine).
         /// </summary>
         Clear,
+
+        /// <summary>
+        /// The uncovered <see cref="Cube"/> was clear and the number of <see cref="Cube.SurroundingMines"/> was 0 so surrounding <see cref="Cube"/>s were also uncovered.<br />
+        /// Only available when using <see cref="Game.Uncover(int, int, int)"/>
+        /// </summary>
+        ClearMultiple,
 
         /// <summary>
         /// The uncovering operation was stopped because the <see cref="Cube"/> was <see cref="CubeState.Flagged"/>.

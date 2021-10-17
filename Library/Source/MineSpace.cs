@@ -129,7 +129,7 @@ namespace Minesweeper3D.Library
                 {
                     for (int xx = lowerLimits[0]; xx < upperLimits[0]; xx++)
                     {
-                        if (xx== x && yy==y && zz== z)
+                        if (xx == x && yy == y && zz == z)
                             continue;
                         else
                             cubes.Add(GetCube(xx, yy, zz));
@@ -312,7 +312,7 @@ namespace Minesweeper3D.Library
 
             byte surroundingMines = 0;
 
-            foreach(Cube cube in cubes)
+            foreach (Cube cube in cubes)
             {
                 if (cube.HasMine)
                     surroundingMines++;
