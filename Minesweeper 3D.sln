@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI - WPF", "GUI - WPF\GUI 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C19C2C00-C8A2-46DF-BA29-4A44C3D4A68A}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
@@ -19,14 +20,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79CB30A4-CB07-4DA4-A532-A20540870E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79CB30A4-CB07-4DA4-A532-A20540870E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79CB30A4-CB07-4DA4-A532-A20540870E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79CB30A4-CB07-4DA4-A532-A20540870E45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70ECB5D-130F-433D-AEA2-DA70BE6252E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
