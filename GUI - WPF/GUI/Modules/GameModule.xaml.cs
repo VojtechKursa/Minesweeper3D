@@ -15,8 +15,25 @@ namespace Minesweeper3D.WPF.GUI.Modules
         public MineSpace MineSpace { get => CurrentGame?.MineSpace; }
         public Game CurrentGame { get; set; }
         public InfoStripe AssignedInfoStripe { get; set; }
-        public NumericUpDown DepthSetter { get; set; }
+        public NumericUpDown DepthSetter
+        {
+            get => depthSetter;
+            set
+            {
+                depthSetter = value;
 
+                try
+                {
+                    depthSetter.ValueChanged -= Setter_ValueChanged;
+                }
+                catch
+                { }
+
+                depthSetter.ValueChanged += Setter_ValueChanged;
+            }
+        }
+
+        private NumericUpDown depthSetter;
         private Image[,] images;
 
         private readonly Timer timeRefreshTimer = new()
@@ -31,9 +48,11 @@ namespace Minesweeper3D.WPF.GUI.Modules
             InitializeComponent();
 
             timeRefreshTimer.Elapsed += TimeRefreshTimer_Elapsed;
+        }
 
-            // Fix the loading of images later
-            //GameImages.LoadImages();
+        private void Setter_ValueChanged(object sender, System.EventArgs e)
+        {
+            RedrawMinefield();
         }
 
         private void TimeRefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -52,6 +71,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
 
             ResetMineField();
             InitializeMineField();
+            ResizeViewport();
 
             timeRefreshTimer.Start();
         }
@@ -59,6 +79,16 @@ namespace Minesweeper3D.WPF.GUI.Modules
         public void StopGame()
         {
             timeRefreshTimer.Stop();
+
+            if (CurrentGame != null && AssignedInfoStripe != null)
+            {
+                try
+                {
+                    AssignedInfoStripe.ElapsedTime = CurrentGame.ElapsedTime;
+                }
+                catch
+                { }
+            }
         }
 
         private void InitializeMineField()
@@ -80,11 +110,13 @@ namespace Minesweeper3D.WPF.GUI.Modules
                 for (int x = 0; x < MineSpace.Width; x++)
                 {
                     Image image = new();
-                    image.SetValue(Grid.RowProperty, x);
-                    image.SetValue(Grid.ColumnProperty, y);
+                    image.SetValue(Grid.ColumnProperty, x);
+                    image.SetValue(Grid.RowProperty, y);
 
                     image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
                     image.MouseRightButtonDown += Image_MouseRightButtonDown;
+
+                    image.Source = GameImages.Covered;
 
                     images[x, y] = image;
                     grid.Children.Add(image);
@@ -94,24 +126,118 @@ namespace Minesweeper3D.WPF.GUI.Modules
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Image image = (Image)sender;
+            if (CurrentGame.Status is GameStatus.NotStarted or GameStatus.Ongoing)
+            {
+                Image image = (Image)sender;
 
-            int x = (int)image.GetValue(Grid.RowProperty);
-            int y = (int)image.GetValue(Grid.ColumnProperty);
-            int z = DepthSetter.Value;
+                int x = (int)image.GetValue(Grid.ColumnProperty);
+                int y = (int)image.GetValue(Grid.RowProperty);
+                int z = DepthSetter.Value - 1;
 
-            CurrentGame.Uncover(x, y, z);
+                UncoverResult result = CurrentGame.Uncover(x, y, z);
+
+                if (result is not UncoverResult.Flag and not UncoverResult.Uncovered)
+                {
+                    if (result == UncoverResult.Mine)
+                        Lose();
+                    else
+                    {
+                        if (result == UncoverResult.Clear)
+                            image.Source = GameImages.Uncovered[MineSpace.GetCube(x, y, z).SurroundingMines];
+                        else
+                            RedrawMinefield();
+
+                        AssignedInfoStripe.Cleared = CurrentGame.Cleared;
+
+                        if (CurrentGame.Status == GameStatus.Won)
+                            Win();
+                    }
+                }
+            }
+        }
+
+        private void RedrawMinefield()
+        {
+            Cube[,] cubes = MineSpace.GetLayer(DepthSetter.Value - 1);
+
+            if (CurrentGame.Status is not GameStatus.Lost)
+            {
+                for (int y = 0; y < MineSpace.Height; y++)
+                {
+                    for (int x = 0; x < MineSpace.Width; x++)
+                    {
+                        switch (cubes[x, y].State)
+                        {
+                            case CubeState.Flagged:
+                                images[x, y].Source = GameImages.Flag;
+                                break;
+                            case CubeState.Covered:
+                                images[x, y].Source = GameImages.Covered;
+                                break;
+                            case CubeState.Uncovered:
+                                images[x, y].Source = GameImages.Uncovered[cubes[x, y].SurroundingMines];
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int y = 0; y < MineSpace.Height; y++)
+                {
+                    for (int x = 0; x < MineSpace.Width; x++)
+                    {
+                        switch (cubes[x, y].State)
+                        {
+                            case CubeState.Flagged:
+                                images[x, y].Source = cubes[x, y].HasMine ? GameImages.Flag : GameImages.FlagWrong;
+                                break;
+                            case CubeState.Covered:
+                                images[x, y].Source = cubes[x, y].HasMine ? GameImages.Mine : GameImages.Covered;
+                                break;
+                            case CubeState.Uncovered:
+                                images[x, y].Source = cubes[x, y].HasMine ? GameImages.MineActivated : GameImages.Uncovered[cubes[x, y].SurroundingMines];
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Win()
+        {
+            StopGame();
+        }
+
+        private void Lose()
+        {
+            StopGame();
+
+            RedrawMinefield();
         }
 
         private void Image_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Image image = (Image)sender;
+            if (CurrentGame.Status is GameStatus.NotStarted or GameStatus.Ongoing)
+            {
+                Image image = (Image)sender;
 
-            int x = (int)image.GetValue(Grid.RowProperty);
-            int y = (int)image.GetValue(Grid.ColumnProperty);
-            int z = DepthSetter.Value;
+                int x = (int)image.GetValue(Grid.ColumnProperty);
+                int y = (int)image.GetValue(Grid.RowProperty);
+                int z = DepthSetter.Value - 1;
 
-            CurrentGame.ChangeFlag(x, y, z);
+                FlagResult result = CurrentGame.ChangeFlag(x, y, z);
+
+                if (result is FlagResult.Flagged or FlagResult.Unflagged)
+                {
+                    AssignedInfoStripe.Flagged = CurrentGame.Flagged;
+
+                    if (result == FlagResult.Flagged)
+                        image.Source = GameImages.Flag;
+                    else
+                        image.Source = GameImages.Covered;
+                }
+            }
         }
 
         private void ResetMineField()

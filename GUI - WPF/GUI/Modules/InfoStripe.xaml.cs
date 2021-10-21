@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Controls;
 
 namespace Minesweeper3D.WPF.GUI.Modules
@@ -19,7 +19,16 @@ namespace Minesweeper3D.WPF.GUI.Modules
             }
         }
 
-        public int Flagged { get; set; }
+        private int flagged;
+        public int Flagged
+        {
+            get => flagged;
+            set
+            {
+                flagged = value;
+                L_flagCount.Content = flagged;
+            }
+        }
 
         private int cleared;
         public int Cleared
