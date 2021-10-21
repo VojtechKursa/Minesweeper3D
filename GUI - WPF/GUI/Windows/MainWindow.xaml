@@ -9,7 +9,8 @@
         Title="Minesweeper 3D (Only for crazy people)" Height="450" Width="800">
     <Grid>
         <Modules:InfoStripe x:Name="infoStripe" VerticalAlignment="Top" Height="30"/>
-        <Modules:NumericUpDown x:Name="Nud_depth" Margin="0,39,10,0" HorizontalAlignment="Right" Width="64" Height="40" VerticalAlignment="Top"/>
+        <Label Content="Depth:" HorizontalAlignment="Right" Margin="0,55,11,0" VerticalAlignment="Top" FontSize="18"/>
+        <Modules:NumericUpDown x:Name="Nud_depth" Value="1" Margin="0,94,10,0" HorizontalAlignment="Right" Width="64" Height="40" VerticalAlignment="Top"/>
         <Button x:Name="B_new" Content="New" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="25" VerticalAlignment="Bottom" Click="B_new_Click"/>
         <Modules:GameModule x:Name="gameModule" Margin="10,39,79,10"/>
 

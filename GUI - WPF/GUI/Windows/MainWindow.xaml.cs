@@ -43,6 +43,10 @@ namespace Minesweeper3D.WPF.GUI.Windows
             gameModule.DepthSetter = Nud_depth;
 
             gameModule.StartGame();
+
+            Nud_depth.MinValue = 1;
+            Nud_depth.MaxValue = game.MineSpace.Depth;
+            Nud_depth.Value = 1;
         }
     }
 }
