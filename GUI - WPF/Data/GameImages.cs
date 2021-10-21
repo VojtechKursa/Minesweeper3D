@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Media.Imaging;
 
 namespace Minesweeper3D.WPF.Data
@@ -14,17 +14,24 @@ namespace Minesweeper3D.WPF.Data
 
         public static void LoadImages()
         {
-            Covered = new BitmapImage(new Uri("Media/Images/Covered.png", UriKind.Relative));
-            Flag = new BitmapImage(new Uri("Media/Images/Flag.png", UriKind.Relative));
-            FlagWrong = new BitmapImage(new Uri("Media/Images/FlagWrong.png", UriKind.Relative));
-            Mine = new BitmapImage(new Uri("Media/Images/Mine.png", UriKind.Relative));
-            MineActivated = new BitmapImage(new Uri("Media/Images/MineActivated.png", UriKind.Relative));
+            Covered = LoadImage("Covered.png");
+            Flag = LoadImage("Flag.png");
+            FlagWrong = LoadImage("FlagWrong.png");
+            Mine = LoadImage("Mine.png");
+            MineActivated = LoadImage("MineActivated.png");
 
-            Uncovered[0] = new BitmapImage(new Uri("Media/Images/Uncovered.png", UriKind.Relative));
+            Uncovered = new BitmapImage[27];
+
+            Uncovered[0] = LoadImage("Uncovered.png");
             for (int i = 1; i < 27; i++)
             {
-                Uncovered[i] = new BitmapImage(new Uri("Media/Images/" + i.ToString() + ".png", UriKind.Relative));
+                Uncovered[i] = LoadImage(i.ToString() + ".png");
             }
+        }
+
+        public static BitmapImage LoadImage(string name)
+        {
+            return new BitmapImage(new Uri("pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/" + name, UriKind.Absolute));
         }
     }
 }

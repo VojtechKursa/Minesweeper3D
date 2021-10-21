@@ -12,7 +12,6 @@
         <Modules:NumericUpDown x:Name="Nud_depth" Margin="0,39,10,0" HorizontalAlignment="Right" Width="64" Height="40" VerticalAlignment="Top"/>
         <Button x:Name="B_new" Content="New" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="25" VerticalAlignment="Bottom" Click="B_new_Click"/>
         <Modules:GameModule x:Name="gameModule" Margin="10,39,79,10"/>
-        <Image x:Name="Img_test" HorizontalAlignment="Left" Height="100" Margin="706,202,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

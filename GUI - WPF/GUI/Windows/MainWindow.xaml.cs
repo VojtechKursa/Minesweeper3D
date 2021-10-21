@@ -14,9 +14,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
         {
             InitializeComponent();
 
-            // Fix the loading of images later
-            //Data.GameImages.LoadImages();
-            //Img_test.Source = Data.GameImages.Covered;
+            Data.GameImages.LoadImages();
 
             infoStripe.InitValues(0, 0, 0, 0);
         }

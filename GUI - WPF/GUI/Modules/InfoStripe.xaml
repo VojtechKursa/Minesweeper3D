@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Minesweeper3D.WPF.GUI.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="34" d:DesignWidth="484.626">
+             d:DesignHeight="34" d:DesignWidth="700">
     <Grid>
-        <Image x:Name="Img_flag" HorizontalAlignment="Left" Width="34" Margin="0,0,0,0"/>
-        <Label x:Name="L_flagCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" Margin="35,0,0,0"/>
+        <Image x:Name="Img_flag" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Flag.png" HorizontalAlignment="Left" Width="34" Margin="0,0,0,0"/>
+        <Label x:Name="L_flagCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" Margin="35,0,0,0" FontSize="18"/>
 
-        <Image x:Name="Img_mine" HorizontalAlignment="Left" Width="34" Margin="95,0,0,0"/>
-        <Label x:Name="L_mineCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"  Margin="130,0,0,0"/>
+        <Image x:Name="Img_mine" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Mine.png" HorizontalAlignment="Left" Width="34" Margin="118,0,0,0"/>
+        <Label x:Name="L_mineCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"  Margin="157,0,0,0" FontSize="18"/>
 
-        <Label x:Name="L_time" Content="99:99:99" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="L_time" Content="99:99:99" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="18"/>
 
-        <Label x:Name="L_cleared" Content="1000000 / 1000000 (100 x 100 x 100)" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="205"/>
+        <Label x:Name="L_cleared" Content="1000000 / 1000000 (100 x 100 x 100)" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="306" FontSize="18"/>
     </Grid>
 </UserControl>
