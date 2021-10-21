@@ -1,11 +1,10 @@
 ﻿using Minesweeper3D.Library.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Timers;
 
 namespace Minesweeper3D.Library
 {
-    public class Game : IDisposable
+    public class Game
     {
         #region Variables and Properties
         #region Public
@@ -26,9 +25,22 @@ namespace Minesweeper3D.Library
         public GameStatus Status { get; protected set; } = GameStatus.NotStarted;
 
         /// <summary>
-        /// Gets (or sets) the time that has elapsed since the start of the game.
+        /// Gets the time that has elapsed since the start of the game.<br />
+        /// If the game hasn't started yet, returns null.<br />
+        /// If the game is already over, returns the time the game took up.
         /// </summary>
-        public TimeSpan ElapsedTime { get; protected set; } = new TimeSpan(0);
+        public TimeSpan? ElapsedTime
+        {
+            get
+            {
+                if (gameStartTime == null)
+                    return null;
+                else if (gameEndTime == null)
+                    return (TimeSpan?)new TimeSpan(DateTime.Now.Ticks - ((DateTime)gameStartTime).Ticks);
+                else
+                    return (TimeSpan?)new TimeSpan(((DateTime)gameEndTime).Ticks - ((DateTime)gameStartTime).Ticks);
+            }
+        }
 
         /// <summary>
         /// Gets the amount of <see cref="CubeState.Flagged"/> <see cref="Cube"/>s in the <see cref="MineSpace"/>.
@@ -49,12 +61,8 @@ namespace Minesweeper3D.Library
 
         #region Not public
 
-        private DateTime gameStartTime;
-        protected readonly Timer timer_elapsedTimeRefresh = new Timer(100)
-        {
-            AutoReset = true,
-            Enabled = false
-        };
+        private DateTime? gameStartTime;
+        private DateTime? gameEndTime;
 
         #endregion
         #endregion
@@ -75,20 +83,12 @@ namespace Minesweeper3D.Library
             MineSpace = new MineSpace(width, height, depth, mineCount);
 
             CubeCount = MineSpace.Width * MineSpace.Height * MineSpace.Depth;
-
-            timer_elapsedTimeRefresh.Elapsed += Timer_elapsedTimeRefresh_Elapsed;
         }
 
         #endregion
 
         #region Methods
         #region Public
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            timer_elapsedTimeRefresh.Dispose();
-        }
 
         /// <summary>
         /// Starts the game.<br />
@@ -101,34 +101,13 @@ namespace Minesweeper3D.Library
         {
             if (Status == GameStatus.NotStarted)
             {
-                StartTimer();
+                gameStartTime = DateTime.Now;
                 Status = GameStatus.Ongoing;
 
                 return true;
             }
             else
                 return false;
-        }
-
-        /// <summary>
-        /// Starts the game timer and sets the <see cref="gameStartTime"/> to <see cref="DateTime.Now"/>.
-        /// </summary>
-        public void StartTimer()
-        {
-            if (gameStartTime == null)
-                gameStartTime = DateTime.Now;
-
-            timer_elapsedTimeRefresh.Start();
-        }
-
-        /// <summary>
-        /// Stops the game timer and recalculates the elapsed time.
-        /// </summary>
-        public void StopTimer()
-        {
-            timer_elapsedTimeRefresh.Stop();
-
-            RecalculateElapsedTime();
         }
 
         /// <summary>
@@ -210,21 +189,16 @@ namespace Minesweeper3D.Library
 
         protected void Win()
         {
-            StopTimer();
+            gameEndTime = DateTime.Now;
 
             Status = GameStatus.Won;
         }
 
         protected void Lose()
         {
-            StopTimer();
+            gameEndTime = DateTime.Now;
 
             Status = GameStatus.Lost;
-        }
-
-        private void RecalculateElapsedTime()
-        {
-            ElapsedTime = new TimeSpan(DateTime.Now.Ticks - gameStartTime.Ticks);
         }
 
         private int UncoverSafe(Cube cube)
@@ -276,15 +250,7 @@ namespace Minesweeper3D.Library
 
         #region Event handlers
 
-        private void Timer_elapsedTimeRefresh_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                RecalculateElapsedTime();
-            }
-            catch
-            { }
-        }
+
 
         #endregion
     }

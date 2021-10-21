@@ -1,5 +1,6 @@
 ﻿using Minesweeper3D.Library;
 using Minesweeper3D.WPF.Data;
+using System;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,7 +60,8 @@ namespace Minesweeper3D.WPF.GUI.Modules
         {
             try
             {
-                AssignedInfoStripe.ElapsedTime = CurrentGame.ElapsedTime;
+                if (CurrentGame.ElapsedTime != null)
+                    AssignedInfoStripe.ElapsedTime = (TimeSpan)CurrentGame.ElapsedTime;
             }
             catch
             { }
@@ -84,7 +86,8 @@ namespace Minesweeper3D.WPF.GUI.Modules
             {
                 try
                 {
-                    AssignedInfoStripe.ElapsedTime = CurrentGame.ElapsedTime;
+                    if (CurrentGame.ElapsedTime != null)
+                        AssignedInfoStripe.ElapsedTime = (TimeSpan)CurrentGame.ElapsedTime;
                 }
                 catch
                 { }
