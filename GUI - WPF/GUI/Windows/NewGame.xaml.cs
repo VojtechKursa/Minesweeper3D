@@ -78,7 +78,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
                 int total = Convert.ToInt32(TB_width.Text) * Convert.ToInt32(TB_height.Text) * Convert.ToInt32(TB_depth.Text);
 
                 L_totalCubes.Content = total;
-                L_mined.Content = Math.Round(Convert.ToInt32(TB_mineCount.Text) / (double)total, 2);
+                L_mined.Content = Math.Round(Convert.ToInt32(TB_mineCount.Text) / (double)total * 100, 2);
             }
         }
 

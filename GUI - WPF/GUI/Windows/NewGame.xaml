@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Minesweeper3D.WPF.GUI.Windows"
         mc:Ignorable="d"
-        Title="NewGame" Height="251" Width="180">
-    <Grid Margin="0,0,0,-39">
+        Title="New game" Height="320" Width="200">
+    <Grid>
         <Label Content="Width: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TB_width" Margin="63,10,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
 
@@ -17,8 +17,8 @@
         <TextBox x:Name="TB_depth" Margin="63,72,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
 
         <Label Content="Mines:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_mineCount" Margin="63,103,10,0" Text="25" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
-        
+        <TextBox x:Name="TB_mineCount" Margin="63,103,10,0" Text="50" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
+
         <GroupBox Header="Info" Margin="0,134,0,0" Height="101" VerticalAlignment="Top">
             <Grid>
                 <Label Content="Total cubes:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
@@ -28,8 +28,8 @@
                 <Label Content="%" HorizontalAlignment="Right" Margin="0,39,10,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        
-        <Button x:Name="B_cancel" Content="Cancel" HorizontalAlignment="Left" Margin="57,244,0,0" VerticalAlignment="Top" Width="54" Click="B_cancel_Click"/>
-        <Button x:Name="B_confirm" Content="Confirm" HorizontalAlignment="Left" Margin="116,244,0,0" VerticalAlignment="Top" Width="54" Click="B_confirm_Click"/>
+
+        <Button x:Name="B_cancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,69,10" VerticalAlignment="Bottom" Width="54" Click="B_cancel_Click"/>
+        <Button x:Name="B_confirm" Content="Confirm" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="54" Click="B_confirm_Click"/>
     </Grid>
 </Window>
