@@ -38,6 +38,10 @@ namespace Minesweeper3D.WPF.GUI.Windows
         {
             gameModule.StopGame();
 
+            gameWonItem.Visibility = Visibility.Hidden;
+            gameLostItem.Visibility = Visibility.Hidden;
+
+            gameModule.MainWindow = this;
             gameModule.CurrentGame = game;
             gameModule.AssignedInfoStripe = infoStripe;
             gameModule.DepthSetter = Nud_depth;
@@ -47,6 +51,18 @@ namespace Minesweeper3D.WPF.GUI.Windows
             Nud_depth.MinValue = 1;
             Nud_depth.MaxValue = game.MineSpace.Depth;
             Nud_depth.Value = 1;
+        }
+
+        public void DisplayWin()
+        {
+            gameWonItem.Visibility = Visibility.Visible;
+            gameLostItem.Visibility = Visibility.Hidden;
+        }
+
+        public void DisplayLose()
+        {
+            gameLostItem.Visibility = Visibility.Visible;
+            gameWonItem.Visibility = Visibility.Hidden;
         }
     }
 }

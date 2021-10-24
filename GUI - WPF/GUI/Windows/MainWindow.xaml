@@ -6,13 +6,15 @@
         xmlns:local="clr-namespace:Minesweeper3D.WPF.GUI.Windows"
         xmlns:Modules="clr-namespace:Minesweeper3D.WPF.GUI.Modules" x:Class="Minesweeper3D.WPF.GUI.Windows.MainWindow"
         mc:Ignorable="d"
-        Title="Minesweeper 3D (Only for crazy people)" Height="450" Width="800">
+        Title="Minesweeper 3D (Only for crazy people)" Height="500" Width="800">
     <Grid>
         <Modules:InfoStripe x:Name="infoStripe" VerticalAlignment="Top" Height="30"/>
         <Label Content="Depth:" HorizontalAlignment="Right" Margin="0,55,11,0" VerticalAlignment="Top" FontSize="18"/>
         <Modules:NumericUpDown x:Name="Nud_depth" Value="1" Margin="0,94,10,0" HorizontalAlignment="Right" Width="64" Height="40" VerticalAlignment="Top"/>
         <Button x:Name="B_new" Content="New" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="25" VerticalAlignment="Bottom" Click="B_new_Click"/>
         <Modules:GameModule x:Name="gameModule" Margin="10,39,79,10"/>
-
+        
+        <ItemsControl x:Name="gameLostItem" ItemsSource="{Binding Source='GAME LOST'}" Margin="0,151,10,59" HorizontalAlignment="Right" Width="44" FontSize="18" FontWeight="Bold" Foreground="Red" Visibility="Hidden"/>
+        <ItemsControl x:Name="gameWonItem" ItemsSource="{Binding Source='GAME WON'}" Margin="0,151,10,59" HorizontalAlignment="Right" Width="44" FontSize="18" FontWeight="Bold" Foreground="Green" Visibility="Hidden"/>
     </Grid>
 </Window>

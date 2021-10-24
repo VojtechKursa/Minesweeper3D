@@ -1,5 +1,6 @@
 ﻿using Minesweeper3D.Library;
 using Minesweeper3D.WPF.Data;
+using Minesweeper3D.WPF.GUI.Windows;
 using System;
 using System.Timers;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
         public MineSpace MineSpace { get => CurrentGame?.MineSpace; }
         public Game CurrentGame { get; set; }
         public InfoStripe AssignedInfoStripe { get; set; }
+        public MainWindow MainWindow { get; set; }
         public NumericUpDown DepthSetter
         {
             get => depthSetter;
@@ -210,6 +212,8 @@ namespace Minesweeper3D.WPF.GUI.Modules
         private void Win()
         {
             StopGame();
+
+            MainWindow.DisplayWin();
         }
 
         private void Lose()
@@ -217,6 +221,8 @@ namespace Minesweeper3D.WPF.GUI.Modules
             StopGame();
 
             RedrawMinefield();
+
+            MainWindow.DisplayLose();
         }
 
         private void Image_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
