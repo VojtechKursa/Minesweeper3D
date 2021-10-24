@@ -201,10 +201,10 @@ namespace Minesweeper3D.Library
             Status = GameStatus.Lost;
         }
 
-        private int UncoverSafe(Cube cube)
+        private int UncoverSafe(Cube referenceCube)
         {
             int uncoveredCubes = 0;
-            Queue<Cube> uncoverQueue = new Queue<Cube>(GetUncoverable(MineSpace.GetSurroundingCubes(cube)));
+            Queue<Cube> uncoverQueue = new Queue<Cube>(GetUncoverable(MineSpace.GetSurroundingCubes(referenceCube)));
 
             Cube currentCube;
             Cube[] cubesToAdd;
@@ -218,11 +218,12 @@ namespace Minesweeper3D.Library
 
                 if (currentCube.SurroundingMines == 0)
                 {
-                    cubesToAdd = GetUncoverable(MineSpace.GetSurroundingCubes(cube));
+                    cubesToAdd = GetUncoverable(MineSpace.GetSurroundingCubes(currentCube));
 
                     foreach (Cube x in cubesToAdd)
                     {
-                        uncoverQueue.Enqueue(x);
+                        if (!uncoverQueue.Contains(x))
+                            uncoverQueue.Enqueue(x);
                     }
                 }
             }
