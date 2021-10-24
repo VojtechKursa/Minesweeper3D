@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,12 +10,15 @@ namespace Minesweeper3D.WPF.GUI.Windows
     public partial class NewGame : Window
     {
         private readonly MainWindow mainWindow;
+        private bool initComplete;
 
         public NewGame(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
 
             InitializeComponent();
+
+            initComplete = true;
 
             RefreshInfo();
         }
@@ -71,18 +74,22 @@ namespace Minesweeper3D.WPF.GUI.Windows
 
         private void RefreshInfo()
         {
-            string invalidParameter = ParametersValid();
-
-            if (invalidParameter == null)
+            if (initComplete)
             {
-                int total = Convert.ToInt32(TB_width.Text) * Convert.ToInt32(TB_height.Text) * Convert.ToInt32(TB_depth.Text);
+                string invalidParameter = ParametersValid();
 
-                L_totalCubes.Content = total;
-                L_mined.Content = Math.Round(Convert.ToInt32(TB_mineCount.Text) / (double)total * 100, 2);
+                if (invalidParameter == null)
+                {
+                    int total = Convert.ToInt32(TB_width.Text) * Convert.ToInt32(TB_height.Text) * Convert.ToInt32(TB_depth.Text);
+
+                    L_totalCubes.Content = total;
+                    L_mined.Content = Math.Round(Convert.ToInt32(TB_mineCount.Text) / (double)total * 100, 2);
+                }
             }
         }
 
         private void TB_TextInput(object sender, TextCompositionEventArgs e)
+        private void TB_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshInfo();
         }

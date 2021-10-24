@@ -8,16 +8,16 @@
         Title="New game" Height="320" Width="200">
     <Grid>
         <Label Content="Width: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_width" Margin="63,10,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
+        <TextBox x:Name="TB_width" Margin="63,10,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextChanged="TB_TextChanged"/>
 
         <Label Content="Height:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_height" Margin="63,41,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
+        <TextBox x:Name="TB_height" Margin="63,41,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextChanged="TB_TextChanged"/>
 
         <Label Content="Depth:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_depth" Margin="63,72,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
+        <TextBox x:Name="TB_depth" Margin="63,72,10,0" Text="10" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextChanged="TB_TextChanged"/>
 
         <Label Content="Mines:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TB_mineCount" Margin="63,103,10,0" Text="50" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextInput="TB_TextInput"/>
+        <TextBox x:Name="TB_mineCount" Margin="63,103,10,0" Text="50" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="26" TextChanged="TB_TextChanged"/>
 
         <GroupBox Header="Info" Margin="0,134,0,0" Height="101" VerticalAlignment="Top">
             <Grid>
