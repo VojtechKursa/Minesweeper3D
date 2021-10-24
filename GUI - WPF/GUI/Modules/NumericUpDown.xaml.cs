@@ -10,10 +10,20 @@ namespace Minesweeper3D.WPF.GUI.Modules
     /// </summary>
     public partial class NumericUpDown : UserControl
     {
+        #region Variables and Properties
+
+        /// <summary>
+        /// Gets or sets the minimum value that is acceptable by this <see cref="NumericUpDown"/>. (Default is 0)
+        /// </summary>
         public int MinValue { get; set; }
+        /// <summary>
+        /// Gets or sets the maximum value that is acceptable by this <see cref="NumericUpDown"/>. (Default is 100)
+        /// </summary>
         public int MaxValue { get; set; } = 100;
 
-        private int value;
+        /// <summary>
+        /// Gets or sets the current value in this <see cref="NumericUpDown"/>.
+        /// </summary>
         public int Value
         {
             get => value;
@@ -29,8 +39,20 @@ namespace Minesweeper3D.WPF.GUI.Modules
                 }
             }
         }
+        private int value;
 
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// An event that's triggered when the <see cref="Value"/> changes.
+        /// </summary>
         public event EventHandler ValueChanged;
+
+        #endregion
+
+        #region Constructors
 
         public NumericUpDown()
         {
@@ -38,6 +60,10 @@ namespace Minesweeper3D.WPF.GUI.Modules
 
             ValueChanged += NumericUpDown_ValueChanged;
         }
+
+        #endregion
+
+        #region Event handlers
 
         private void NumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -80,5 +106,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
             else
                 TB_value.Text = Value.ToString();
         }
+
+        #endregion
     }
 }

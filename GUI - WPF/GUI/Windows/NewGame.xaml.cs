@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace Minesweeper3D.WPF.GUI.Windows
 {
@@ -9,8 +9,14 @@ namespace Minesweeper3D.WPF.GUI.Windows
     /// </summary>
     public partial class NewGame : Window
     {
+        #region Variables and Properties
+
         private readonly MainWindow mainWindow;
         private bool initComplete;
+
+        #endregion
+
+        #region Constructors
 
         public NewGame(MainWindow mainWindow)
         {
@@ -23,6 +29,14 @@ namespace Minesweeper3D.WPF.GUI.Windows
             RefreshInfo();
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Verifies whether all of the current parameters are valid.
+        /// </summary>
+        /// <returns>The name of the parameter that's invalid or null if all parameters are valid.</returns>
         private string ParametersValid()
         {
             try
@@ -72,6 +86,9 @@ namespace Minesweeper3D.WPF.GUI.Windows
             return null;
         }
 
+        /// <summary>
+        /// Refreshes the info section of this window.
+        /// </summary>
         private void RefreshInfo()
         {
             if (initComplete)
@@ -88,7 +105,10 @@ namespace Minesweeper3D.WPF.GUI.Windows
             }
         }
 
-        private void TB_TextInput(object sender, TextCompositionEventArgs e)
+        #endregion
+
+        #region Event handlers
+
         private void TB_TextChanged(object sender, TextChangedEventArgs e)
         {
             RefreshInfo();
@@ -114,5 +134,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
             else
                 MessageBox.Show("Invalid parameter: " + invalidParameter, "Invalid parameter", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
         }
+
+        #endregion
     }
 }
