@@ -7,14 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="34" d:DesignWidth="700">
     <Grid>
-        <Image x:Name="Img_flag" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Flag.png" HorizontalAlignment="Left" Width="34" Margin="0,0,0,0"/>
-        <Label x:Name="L_flagCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" Margin="35,0,0,0" FontSize="18"/>
+        <Image x:Name="Img_cleared" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Uncovered.png" HorizontalAlignment="Left" Width="34" Margin="0,0,0,0"/>
+        <Label x:Name="L_cleared" Content="1000000 / 1000000" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="164" FontSize="18" Margin="34,0,0,0"/>
 
-        <Image x:Name="Img_mine" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Mine.png" HorizontalAlignment="Left" Width="34" Margin="118,0,0,0"/>
-        <Label x:Name="L_mineCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"  Margin="157,0,0,0" FontSize="18"/>
+        <Image x:Name="Img_flag" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Flag.png" HorizontalAlignment="Left" Width="34" Margin="203,0,0,0"/>
+        <Label x:Name="L_flagCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" FontSize="18" Margin="237,0,0,0"/>
 
-        <Label x:Name="L_time" Content="99:99:99" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="18"/>
+        <Image x:Name="Img_mine" Source="pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/Mine.png" HorizontalAlignment="Left" Width="34" Margin="320,0,0,0"/>
+        <Label x:Name="L_mineCount" Content="1000000" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"  Margin="354,0,0,0" FontSize="18"/>
 
-        <Label x:Name="L_cleared" Content="1000000 / 1000000 (100 x 100 x 100)" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="306" FontSize="18"/>
+        <Label x:Name="L_total" Content="100 x 100 x 100" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="133" FontSize="18" Margin="467,0,0,0"/>
+        
+        <Label x:Name="L_time" Content="99:99:99" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontSize="18"/>
     </Grid>
 </UserControl>

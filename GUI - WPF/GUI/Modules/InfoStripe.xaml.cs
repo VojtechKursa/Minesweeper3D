@@ -37,7 +37,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
             set
             {
                 cleared = value;
-                L_cleared.Content = string.Format("{0} / {1} ({2} x {3} x {4})", cleared, SpaceTotal, SpaceWidth, SpaceHeight, SpaceDepth);
+                L_cleared.Content = string.Format("{0} / {1}", cleared, SpaceTotal - MineCount);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
             ElapsedTime = new TimeSpan(0);
 
             L_mineCount.Content = MineCount;
-            L_flagCount.Content = Flagged;
+            L_total.Content = string.Format("{0} x {1} x {2}", SpaceWidth, SpaceHeight, SpaceDepth);
         }
 
         private void UpdateTime()
