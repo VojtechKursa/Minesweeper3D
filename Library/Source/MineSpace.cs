@@ -328,7 +328,9 @@ namespace Minesweeper3D.Library
         /// <summary>
         /// Gets the amount of mines surrounding a given position.
         /// </summary>
-        /// <param name="position">The position around which to search for mines.</param>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
         /// <returns>The amount of mines surrounding the given position.</returns>
         /// <exception cref="InvalidCoordinatesException"/>
         internal byte GetSurroundingMines(int x, int y, int z)

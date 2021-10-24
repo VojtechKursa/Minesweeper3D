@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace Minesweeper3D.Library
 {
+    /// <summary>
+    /// Represents an extension of the <see cref="Library.MineSpace"/> class.<br />
+    /// Tracks game's status, elapsed time, provides <see cref="Uncover(int, int, int)"/> method that uncovers surrounding <see cref="Cube"/>s if the uncovered <see cref="Cube"/> has 0 <see cref="Cube.SurroundingMines"/> etc.
+    /// </summary>
     public class Game
     {
         #region Variables and Properties
