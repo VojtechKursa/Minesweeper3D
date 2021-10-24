@@ -15,7 +15,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
             set
             {
                 elapsedTime = value;
-                L_time.Content = string.Format("{0}:{1}:{2}", elapsedTime.Hours.ToString().PadLeft(2, '0'), elapsedTime.Minutes.ToString().PadLeft(2, '0'), elapsedTime.Seconds.ToString().PadLeft(2, '0'));
+                Dispatcher.Invoke(UpdateTime);
             }
         }
 
@@ -66,6 +66,11 @@ namespace Minesweeper3D.WPF.GUI.Modules
 
             L_mineCount.Content = MineCount;
             L_flagCount.Content = Flagged;
+        }
+
+        private void UpdateTime()
+        {
+            L_time.Content = string.Format("{0}:{1}:{2}", elapsedTime.Hours.ToString().PadLeft(2, '0'), elapsedTime.Minutes.ToString().PadLeft(2, '0'), elapsedTime.Seconds.ToString().PadLeft(2, '0'));
         }
     }
 }
