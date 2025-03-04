@@ -65,20 +65,11 @@ namespace Minesweeper3D.WPF.GUI.Modules
 
         #region Event handlers
 
-        private void NumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            TB_value.Text = value.ToString();
-        }
+        private void NumericUpDown_ValueChanged(object sender, EventArgs e) => TB_value.Text = value.ToString();
 
-        private void B_down_Click(object sender, RoutedEventArgs e)
-        {
-            Value--;
-        }
+        private void B_down_Click(object sender, RoutedEventArgs e) => Value--;
 
-        private void B_up_Click(object sender, RoutedEventArgs e)
-        {
-            Value++;
-        }
+        private void B_up_Click(object sender, RoutedEventArgs e) => Value++;
 
         private void TB_value_TextInput(object sender, TextCompositionEventArgs e)
         {

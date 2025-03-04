@@ -1,6 +1,6 @@
-﻿using Minesweeper3D.Library.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Minesweeper3D.Library.Exceptions;
 
 namespace Minesweeper3D.Library
 {
@@ -39,10 +39,10 @@ namespace Minesweeper3D.Library
             {
                 if (gameStartTime == null)
                     return null;
-                else if (gameEndTime == null)
-                    return (TimeSpan?)new TimeSpan(DateTime.Now.Ticks - ((DateTime)gameStartTime).Ticks);
-                else
-                    return (TimeSpan?)new TimeSpan(((DateTime)gameEndTime).Ticks - ((DateTime)gameStartTime).Ticks);
+                if (gameEndTime == null)
+                    return new TimeSpan(DateTime.Now.Ticks - ((DateTime)gameStartTime).Ticks);
+
+                return new TimeSpan(((DateTime)gameEndTime).Ticks - ((DateTime)gameStartTime).Ticks);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Minesweeper3D.Library
         /// <summary>
         /// Gets the amount of mined <see cref="Cube"/>s in the <see cref="MineSpace"/>.
         /// </summary>
-        public int MineCount { get => MineSpace.ActualMineCount; }
+        public int MineCount => MineSpace.ActualMineCount;
 
         /// <summary>
         /// Gets the amount of successully <see cref="CubeState.Uncovered"/> <see cref="Cube"/>s in the <see cref="MineSpace"/>.

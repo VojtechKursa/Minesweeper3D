@@ -1,11 +1,11 @@
-﻿using Minesweeper3D.Library;
-using Minesweeper3D.WPF.Data;
-using Minesweeper3D.WPF.GUI.Windows;
-using System;
+﻿using System;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Minesweeper3D.Library;
+using Minesweeper3D.WPF.Data;
+using Minesweeper3D.WPF.GUI.Windows;
 
 namespace Minesweeper3D.WPF.GUI.Modules
 {
@@ -20,7 +20,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
         /// <summary>
         /// Gets the <see cref="Minesweeper3D.Library.MineSpace"/> of the <see cref="Game"/> associated with this <see cref="GameModule"/>.
         /// </summary>
-        public MineSpace MineSpace { get => CurrentGame?.MineSpace; }
+        public MineSpace MineSpace => CurrentGame?.MineSpace;
 
         /// <summary>
         /// Gets or sets the <see cref="Game"/> associated with this <see cref="GameModule"/>.
@@ -262,7 +262,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
                 if (mineFieldRatio > canvasRatio)    //Limited by width of Canvas
                 {
                     gridWidth = canvas.ActualWidth;
-                    gridHeight = (1 / mineFieldRatio) * gridWidth;
+                    gridHeight = 1 / mineFieldRatio * gridWidth;
                 }
                 else    //Limited by height of Canvas
                 {
@@ -270,8 +270,8 @@ namespace Minesweeper3D.WPF.GUI.Modules
                     gridWidth = mineFieldRatio * gridHeight;
                 }
 
-                double horizontalMargin = canvas.ActualWidth / 2 - gridWidth / 2;
-                double verticalMargin = canvas.ActualHeight / 2 - gridHeight / 2;
+                double horizontalMargin = (canvas.ActualWidth / 2) - (gridWidth / 2);
+                double verticalMargin = (canvas.ActualHeight / 2) - (gridHeight / 2);
 
                 grid.Margin = new Thickness(horizontalMargin, verticalMargin, horizontalMargin, verticalMargin);
                 grid.Height = gridHeight;
@@ -332,18 +332,12 @@ namespace Minesweeper3D.WPF.GUI.Modules
                 {
                     AssignedInfoStripe.Flagged = CurrentGame.Flagged;
 
-                    if (result == FlagResult.Flagged)
-                        image.Source = GameImages.Flag;
-                    else
-                        image.Source = GameImages.Covered;
+                    image.Source = result == FlagResult.Flagged ? GameImages.Flag : GameImages.Covered;
                 }
             }
         }
 
-        private void Setter_ValueChanged(object sender, System.EventArgs e)
-        {
-            RedrawMinefield();
-        }
+        private void Setter_ValueChanged(object sender, System.EventArgs e) => RedrawMinefield();
 
         private void TimeRefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -356,10 +350,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
             { }
         }
 
-        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ResizeViewport();
-        }
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e) => ResizeViewport();
 
         #endregion
     }

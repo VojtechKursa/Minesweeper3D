@@ -1,5 +1,5 @@
-﻿using Minesweeper3D.Library;
-using System.Windows;
+﻿using System.Windows;
+using Minesweeper3D.Library;
 
 namespace Minesweeper3D.WPF.GUI.Windows
 {
@@ -36,10 +36,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
         /// <param name="height">The desired height of the <see cref="Game.MineSpace"/> in the newly created <see cref="Game"/>.</param>
         /// <param name="depth">The desired depth of the <see cref="Game.MineSpace"/> in the newly created <see cref="Game"/>.</param>
         /// <param name="mineCount">The desired number of mines in the <see cref="Game.MineSpace"/> of the newly created <see cref="Game"/>.</param>
-        public void StartNewGame(int width, int height, int depth, int mineCount)
-        {
-            game = new Game(width, height, depth, mineCount);
-        }
+        public void StartNewGame(int width, int height, int depth, int mineCount) => game = new Game(width, height, depth, mineCount);
 
         /// <summary>
         /// Performs necessary steps for beginning a new game.

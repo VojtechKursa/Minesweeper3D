@@ -12,7 +12,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
         #region Variables and Properties
 
         private readonly MainWindow mainWindow;
-        private bool initComplete;
+        private readonly bool initComplete;
 
         #endregion
 
@@ -109,10 +109,7 @@ namespace Minesweeper3D.WPF.GUI.Windows
 
         #region Event handlers
 
-        private void TB_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshInfo();
-        }
+        private void TB_TextChanged(object sender, TextChangedEventArgs e) => RefreshInfo();
 
         private void B_cancel_Click(object sender, RoutedEventArgs e)
         {

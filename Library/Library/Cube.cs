@@ -93,10 +93,7 @@
             {
                 State = CubeState.Uncovered;
 
-                if (HasMine)
-                    return UncoverResult.Mine;
-                else
-                    return UncoverResult.Clear;
+                return HasMine ? UncoverResult.Mine : UncoverResult.Clear;
             }
         }
 

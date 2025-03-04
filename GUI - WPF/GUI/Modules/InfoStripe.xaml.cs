@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace Minesweeper3D.WPF.GUI.Modules
@@ -68,7 +69,7 @@ namespace Minesweeper3D.WPF.GUI.Modules
         /// <summary>
         /// Gets the total amount of cubes in the current <see cref="Library.MineSpace"/>.
         /// </summary>
-        public int SpaceTotal { get => SpaceWidth * SpaceHeight * SpaceDepth; }
+        public int SpaceTotal => SpaceWidth * SpaceHeight * SpaceDepth;
 
         /// <summary>
         /// Gets (or sets) the number of mines in the current <see cref="Library.MineSpace"/>.
@@ -123,7 +124,13 @@ namespace Minesweeper3D.WPF.GUI.Modules
         /// </summary>
         private void UpdateTime()
         {
-            L_time.Content = string.Format("{0}:{1}:{2}", elapsedTime.Hours.ToString().PadLeft(2, '0'), elapsedTime.Minutes.ToString().PadLeft(2, '0'), elapsedTime.Seconds.ToString().PadLeft(2, '0'));
+            string[] stripValues = [
+                elapsedTime.Hours.ToString(),
+                elapsedTime.Minutes.ToString(),
+                elapsedTime.Seconds.ToString()
+            ];
+
+            L_time.Content = string.Join(':', stripValues.Select(value => value.PadLeft(2, '0')));
         }
 
         #endregion

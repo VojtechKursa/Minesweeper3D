@@ -70,10 +70,7 @@ namespace Minesweeper3D.WPF.Data
         /// </summary>
         /// <param name="name">Name of the image to load.</param>
         /// <returns>The <see cref="BitmapImage"/> that was loaded.</returns>
-        private static BitmapImage LoadImage(string name)
-        {
-            return new BitmapImage(new Uri("pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/" + name, UriKind.Absolute));
-        }
+        private static BitmapImage LoadImage(string name) => new(new Uri("pack://application:,,,/Minesweeper 3D GUI;component/Media/Images/" + name, UriKind.Absolute));
 
         #endregion
     }
